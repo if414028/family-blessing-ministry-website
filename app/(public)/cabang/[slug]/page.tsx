@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CopyButton, WhatsAppButton, YouTubeButton } from "@/components/public/ActionButtons";
 import { BranchCard } from "@/components/public/Cards";
-import { getBranchBySlug, getBranches } from "@/lib/data";
+import { getBranchBySlug, getBranches, type BranchLike } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
 
@@ -14,9 +14,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function BranchDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const [branch, branches] = await Promise.all([getBranchBySlug(slug), getBranches()]);
+  const branch = await getBranchBySlug(slug);
+  const branches: BranchLike[] = await getBranches();
   if (!branch) notFound();
-  const others = branches.filter((item) => item.slug !== branch.slug).slice(0, 3);
+  const others = branches.filter((item: BranchLike) => item.slug !== branch.slug).slice(0, 3);
 
   return (
     <main>
@@ -59,7 +60,7 @@ export default async function BranchDetailPage({ params }: { params: Promise<{ s
         <div className="mx-auto max-w-7xl">
           <h2 className="text-3xl font-semibold">Cabang Lainnya</h2>
           <div className="mt-6 grid gap-5 md:grid-cols-3">
-            {others.map((item) => <BranchCard key={item.slug} branch={item} />)}
+            {others.map((item: BranchLike) => <BranchCard key={item.slug} branch={item} />)}
           </div>
         </div>
       </section>

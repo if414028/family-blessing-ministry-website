@@ -34,8 +34,12 @@ export type PublishedSermon = Prisma.SermonGetPayload<{ include: { branch: true 
 export type PublishedAlbum = Prisma.GalleryAlbumGetPayload<{
   include: { branch: true; images: true };
 }>;
+export type SiteSettingsLike = Prisma.SiteSettingGetPayload<object> | typeof defaultSiteSettings;
+export type PageContentLike =
+  | Prisma.PageContentGetPayload<object>
+  | (typeof defaultPages)[number];
 
-export async function getSiteSettings() {
+export async function getSiteSettings(): Promise<SiteSettingsLike> {
   try {
     return (await prisma.siteSetting.findFirst()) ?? defaultSiteSettings;
   } catch {
@@ -43,7 +47,7 @@ export async function getSiteSettings() {
   }
 }
 
-export async function getPageContent(slug: string) {
+export async function getPageContent(slug: string): Promise<PageContentLike | undefined> {
   try {
     return (
       (await prisma.pageContent.findUnique({ where: { slug } })) ??
@@ -66,7 +70,7 @@ export async function getBranches(): Promise<BranchLike[]> {
   }
 }
 
-export async function getBranchBySlug(slug: string) {
+export async function getBranchBySlug(slug: string): Promise<BranchLike | null> {
   const branches = await getBranches();
   return branches.find((branch) => branch.slug === slug) ?? null;
 }

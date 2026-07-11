@@ -4,16 +4,21 @@ import { BranchCard, EventCard, SermonCard } from "@/components/public/Cards";
 import { PrayerRequestForm } from "@/components/public/PublicForms";
 import { SectionHeading } from "@/components/public/SectionHeading";
 import { EmptyState } from "@/components/ui/EmptyState";
-import { getBranches, getPublishedEvents, getPublishedSermons } from "@/lib/data";
+import {
+  getBranches,
+  getPublishedEvents,
+  getPublishedSermons,
+  type BranchLike,
+  type PublishedEvent,
+  type PublishedSermon,
+} from "@/lib/data";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const [branches, events, sermons] = await Promise.all([
-    getBranches(),
-    getPublishedEvents(),
-    getPublishedSermons(),
-  ]);
+  const branches: BranchLike[] = await getBranches();
+  const events: PublishedEvent[] = await getPublishedEvents();
+  const sermons: PublishedSermon[] = await getPublishedSermons();
   const previewBranches = branches.slice(0, 6);
 
   return (
@@ -109,7 +114,7 @@ export default async function HomePage() {
         </div>
 
         <div className="mx-auto mt-12 grid max-w-7xl gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {previewBranches.map((branch) => (
+          {previewBranches.map((branch: BranchLike) => (
             <BranchCard key={branch.slug} branch={branch} />
           ))}
         </div>
@@ -136,7 +141,7 @@ export default async function HomePage() {
       <section className="bg-[#f5f5f7] px-5 py-20">
         <SectionHeading eyebrow="Events" title="Agenda Mendatang" />
         <div className="mx-auto mt-10 grid max-w-7xl gap-5 md:grid-cols-3">
-          {events.length ? events.slice(0, 3).map((event) => <EventCard key={event.id} event={event} />) : (
+          {events.length ? events.slice(0, 3).map((event: PublishedEvent) => <EventCard key={event.id} event={event} />) : (
             <div className="md:col-span-3"><EmptyState title="Belum ada event terpublikasi" description="Agenda pelayanan akan tampil di sini ketika sudah dipublikasikan dari CMS." /></div>
           )}
         </div>
@@ -145,7 +150,7 @@ export default async function HomePage() {
       <section className="px-5 py-20">
         <SectionHeading eyebrow="Khotbah" title="Renungan dan Video Terbaru" />
         <div className="mx-auto mt-10 grid max-w-7xl gap-5 md:grid-cols-3">
-          {sermons.length ? sermons.slice(0, 3).map((sermon) => <SermonCard key={sermon.id} sermon={sermon} />) : (
+          {sermons.length ? sermons.slice(0, 3).map((sermon: PublishedSermon) => <SermonCard key={sermon.id} sermon={sermon} />) : (
             <div className="md:col-span-3"><EmptyState title="Belum ada video khotbah" description="Video dan renungan terbaru akan tampil setelah dipublikasikan dari CMS." /></div>
           )}
         </div>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { BranchCard } from "@/components/public/Cards";
 import { SectionHeading } from "@/components/public/SectionHeading";
-import { getBranches } from "@/lib/data";
+import { getBranches, type BranchLike } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Cabang",
@@ -12,8 +12,8 @@ export const dynamic = "force-dynamic";
 
 export default async function BranchesPage({ searchParams }: { searchParams: Promise<{ q?: string; type?: string }> }) {
   const params = await searchParams;
-  const branches = await getBranches();
-  const filtered = branches.filter((branch) => {
+  const branches: BranchLike[] = await getBranches();
+  const filtered = branches.filter((branch: BranchLike) => {
     const q = (params.q ?? "").toLowerCase();
     const type = params.type ?? "";
     return (!q || `${branch.name} ${branch.city} ${branch.country}`.toLowerCase().includes(q)) && (!type || branch.type === type || (type === "INTERNATIONAL" ? branch.country !== "Indonesia" : true));
@@ -35,7 +35,7 @@ export default async function BranchesPage({ searchParams }: { searchParams: Pro
         </form>
       </section>
       <section className="mx-auto grid max-w-7xl gap-5 px-5 pb-20 md:grid-cols-2 lg:grid-cols-3">
-        {filtered.map((branch) => <BranchCard key={branch.slug} branch={branch} />)}
+        {filtered.map((branch: BranchLike) => <BranchCard key={branch.slug} branch={branch} />)}
       </section>
     </main>
   );
