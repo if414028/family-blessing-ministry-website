@@ -1,0 +1,235 @@
+generator client {
+  provider   = "prisma-client-js"
+  engineType = "library"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  EDITOR
+  BRANCH_ADMIN
+}
+
+enum BranchType {
+  ONSITE
+  ZOOM
+}
+
+enum PublishStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum PrayerStatus {
+  NEW
+  PRAYED
+  CONTACTED
+  ARCHIVED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(EDITOR)
+  branchId     String?
+  branch       Branch?  @relation(fields: [branchId], references: [id], onDelete: SetNull)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model SiteSetting {
+  id              String   @id @default(cuid())
+  siteName        String   @default("Family Blessing")
+  tagline         String   @default("A Place of Prayer, Worship, and God's Presence")
+  description     String   @db.Text
+  logoUrl         String?
+  faviconUrl      String?
+  primaryPhone    String?
+  primaryEmail    String?
+  instagramUrl    String?
+  youtubeUrl      String?
+  facebookUrl     String?
+  address         String?  @db.Text
+  seoTitle        String   @default("Family Blessing")
+  seoDescription  String   @db.Text
+  ogImageUrl      String?
+  maintenanceMode Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model PageContent {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model HeroSlide {
+  id          String        @id @default(cuid())
+  title       String
+  subtitle    String        @db.Text
+  imageUrl    String?
+  primaryCta  String?
+  primaryHref String?
+  status      PublishStatus @default(PUBLISHED)
+  sortOrder   Int           @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model Branch {
+  id                 String     @id @default(cuid())
+  name               String
+  slug               String     @unique
+  type               BranchType @default(ONSITE)
+  city               String
+  province           String
+  country            String     @default("Indonesia")
+  address            String     @db.Text
+  venueName          String?
+  contactPersonName  String?
+  contactPersonPhone String?
+  whatsappPhone      String?
+  bankName           String?
+  bankAccountNumber  String?
+  bankAccountHolder  String?
+  youtubeChannelName String?
+  youtubeUrl         String?
+  zoomInfo           String?    @db.Text
+  mapEmbedUrl        String?    @db.Text
+  latitude           Decimal?   @db.Decimal(10, 7)
+  longitude          Decimal?   @db.Decimal(10, 7)
+  showContact        Boolean    @default(true)
+  showBankAccount    Boolean    @default(true)
+  showYoutube        Boolean    @default(true)
+  isActive           Boolean    @default(true)
+  sortOrder          Int        @default(0)
+  events             Event[]
+  sermons            Sermon[]
+  albums             GalleryAlbum[]
+  prayerRequests     PrayerRequest[]
+  users              User[]
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+}
+
+model Event {
+  id               String        @id @default(cuid())
+  title            String
+  slug             String        @unique
+  description      String        @db.Text
+  startDate        DateTime
+  endDate          DateTime?
+  location         String?
+  branchId         String?
+  branch           Branch?       @relation(fields: [branchId], references: [id], onDelete: SetNull)
+  coverImage       String?
+  registrationLink String?
+  isFeatured       Boolean       @default(false)
+  status           PublishStatus @default(DRAFT)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+}
+
+model Sermon {
+  id             String        @id @default(cuid())
+  title          String
+  slug           String        @unique
+  speaker        String
+  date           DateTime
+  branchId       String?
+  branch         Branch?       @relation(fields: [branchId], references: [id], onDelete: SetNull)
+  youtubeUrl     String?
+  youtubeEmbedId String?
+  description    String        @db.Text
+  thumbnail      String?
+  bibleVerse     String?
+  status         PublishStatus @default(DRAFT)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model GalleryAlbum {
+  id          String        @id @default(cuid())
+  title       String
+  slug        String        @unique
+  description String        @db.Text
+  coverImage  String?
+  branchId    String?
+  branch      Branch?       @relation(fields: [branchId], references: [id], onDelete: SetNull)
+  date        DateTime
+  status      PublishStatus @default(DRAFT)
+  images      GalleryImage[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model GalleryImage {
+  id        String       @id @default(cuid())
+  albumId   String
+  album     GalleryAlbum @relation(fields: [albumId], references: [id], onDelete: Cascade)
+  imageUrl  String
+  caption   String?
+  sortOrder Int          @default(0)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
+
+model PrayerRequest {
+  id              String       @id @default(cuid())
+  name            String
+  whatsapp        String
+  email           String?
+  branchId        String?
+  branch          Branch?      @relation(fields: [branchId], references: [id], onDelete: SetNull)
+  request         String       @db.Text
+  allowContact    Boolean      @default(false)
+  status          PrayerStatus @default(NEW)
+  internalNote    String?      @db.Text
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String?
+  whatsapp  String?
+  subject   String?
+  message   String   @db.Text
+  isRead    Boolean  @default(false)
+  isArchived Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model MediaFile {
+  id        String   @id @default(cuid())
+  fileName  String
+  url       String
+  mimeType  String
+  size      Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  actorId   String?
+  action    String
+  entity    String
+  entityId  String?
+  metadata  Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
