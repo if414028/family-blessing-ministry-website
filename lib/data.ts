@@ -1,3 +1,4 @@
+import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/db";
 import { branchSeedData, defaultPages, defaultSiteSettings } from "@/lib/seed-data";
 
@@ -27,6 +28,12 @@ export type BranchLike = {
   isActive?: boolean;
   sortOrder?: number;
 };
+
+export type PublishedEvent = Prisma.EventGetPayload<{ include: { branch: true } }>;
+export type PublishedSermon = Prisma.SermonGetPayload<{ include: { branch: true } }>;
+export type PublishedAlbum = Prisma.GalleryAlbumGetPayload<{
+  include: { branch: true; images: true };
+}>;
 
 export async function getSiteSettings() {
   try {
@@ -64,7 +71,7 @@ export async function getBranchBySlug(slug: string) {
   return branches.find((branch) => branch.slug === slug) ?? null;
 }
 
-export async function getPublishedEvents() {
+export async function getPublishedEvents(): Promise<PublishedEvent[]> {
   try {
     return await prisma.event.findMany({
       where: { status: "PUBLISHED" },
@@ -76,7 +83,7 @@ export async function getPublishedEvents() {
   }
 }
 
-export async function getEventBySlug(slug: string) {
+export async function getEventBySlug(slug: string): Promise<PublishedEvent | null> {
   try {
     return await prisma.event.findUnique({ where: { slug }, include: { branch: true } });
   } catch {
@@ -84,7 +91,7 @@ export async function getEventBySlug(slug: string) {
   }
 }
 
-export async function getPublishedSermons() {
+export async function getPublishedSermons(): Promise<PublishedSermon[]> {
   try {
     return await prisma.sermon.findMany({
       where: { status: "PUBLISHED" },
@@ -96,7 +103,7 @@ export async function getPublishedSermons() {
   }
 }
 
-export async function getSermonBySlug(slug: string) {
+export async function getSermonBySlug(slug: string): Promise<PublishedSermon | null> {
   try {
     return await prisma.sermon.findUnique({ where: { slug }, include: { branch: true } });
   } catch {
@@ -104,7 +111,7 @@ export async function getSermonBySlug(slug: string) {
   }
 }
 
-export async function getPublishedAlbums() {
+export async function getPublishedAlbums(): Promise<PublishedAlbum[]> {
   try {
     return await prisma.galleryAlbum.findMany({
       where: { status: "PUBLISHED" },
@@ -116,7 +123,7 @@ export async function getPublishedAlbums() {
   }
 }
 
-export async function getAlbumBySlug(slug: string) {
+export async function getAlbumBySlug(slug: string): Promise<PublishedAlbum | null> {
   try {
     return await prisma.galleryAlbum.findUnique({
       where: { slug },
