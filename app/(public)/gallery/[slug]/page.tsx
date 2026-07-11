@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { GalleryImage } from "@prisma/client";
 import { notFound } from "next/navigation";
 import { getAlbumBySlug } from "@/lib/data";
 import { formatDate } from "@/lib/utils";
@@ -23,7 +24,7 @@ export default async function GalleryDetailPage({ params }: { params: Promise<{ 
         </div>
       </section>
       <section className="mx-auto grid max-w-7xl gap-5 px-5 py-16 md:grid-cols-3">
-        {album.images.length ? album.images.map((image) => (
+        {album.images.length ? album.images.map((image: GalleryImage) => (
           <figure key={image.id} className="overflow-hidden rounded-[18px] bg-[#f5f5f7]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img className="aspect-[4/3] w-full object-cover" src={image.imageUrl} alt={image.caption ?? album.title} />
