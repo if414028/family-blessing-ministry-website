@@ -50,7 +50,7 @@ export default async function HomePage() {
 
       <section className="overflow-hidden bg-[#0066cc] py-4 text-white">
         <div className="marquee-track flex w-max items-center gap-10 whitespace-nowrap">
-          {Array.from({ length: 6 }).map((_, index) => (
+          {Array.from({ length: 6 }).map((_: unknown, index: number) => (
             <p key={index} className="text-sm font-semibold uppercase tracking-[0.24em] text-white/85 md:text-base">
               2 Samuel 6 : 11 · Tiga bulan lamanya tabut Tuhan itu tinggal di rumah Obed-Edom,
               orang Gat itu, dan TUHAN memberkati Obed-Edom dan seisi rumahnya.

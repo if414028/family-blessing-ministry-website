@@ -15,7 +15,7 @@ export function PrayerRequestForm({ branches }: { branches: BranchLike[] }) {
       <input className="form-field" name="email" type="email" placeholder="Email (opsional)" />
       <select className="form-field" name="branchId">
         <option value="">Pilih cabang terdekat</option>
-        {branches.map((branch) => (
+        {branches.map((branch: BranchLike) => (
           <option key={branch.id ?? branch.slug} value={branch.id ?? ""}>
             {branch.name}
           </option>

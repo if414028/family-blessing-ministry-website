@@ -69,7 +69,7 @@ export function EventForm({ event, branches }: { event?: AdminEntity; branches: 
       <Field label="Start Date"><input className="admin-field" name="startDate" type="datetime-local" defaultValue={dateInputValue(event?.startDate, "datetime")} required /></Field>
       <Field label="End Date"><input className="admin-field" name="endDate" type="datetime-local" defaultValue={dateInputValue(event?.endDate, "datetime")} /></Field>
       <Field label="Location"><input className="admin-field" name="location" defaultValue={textValue(event?.location)} /></Field>
-      <Field label="Branch"><select className="admin-field" name="branchId" defaultValue={textValue(event?.branchId)}><option value="">-</option>{branches.map((b) => <option key={b.id} value={b.id}>{b.name}</option>)}</select></Field>
+      <Field label="Branch"><select className="admin-field" name="branchId" defaultValue={textValue(event?.branchId)}><option value="">-</option>{branches.map((b: BranchOption) => <option key={b.id} value={b.id}>{b.name}</option>)}</select></Field>
       <Field label="Cover Image"><input className="admin-field" name="coverImage" defaultValue={textValue(event?.coverImage)} /></Field>
       <Field label="Registration Link"><input className="admin-field" name="registrationLink" defaultValue={textValue(event?.registrationLink)} /></Field>
       <Field label="Status"><select className="admin-field" name="status" defaultValue={textValue(event?.status) || "DRAFT"}><option>DRAFT</option><option>PUBLISHED</option><option>ARCHIVED</option></select></Field>
@@ -88,7 +88,7 @@ export function SermonForm({ sermon, branches }: { sermon?: AdminEntity; branche
       <Field label="Slug"><input className="admin-field" name="slug" defaultValue={textValue(sermon?.slug)} /></Field>
       <Field label="Speaker"><input className="admin-field" name="speaker" defaultValue={textValue(sermon?.speaker)} required /></Field>
       <Field label="Date"><input className="admin-field" name="date" type="date" defaultValue={dateInputValue(sermon?.date, "date")} required /></Field>
-      <Field label="Branch"><select className="admin-field" name="branchId" defaultValue={textValue(sermon?.branchId)}><option value="">-</option>{branches.map((b) => <option key={b.id} value={b.id}>{b.name}</option>)}</select></Field>
+      <Field label="Branch"><select className="admin-field" name="branchId" defaultValue={textValue(sermon?.branchId)}><option value="">-</option>{branches.map((b: BranchOption) => <option key={b.id} value={b.id}>{b.name}</option>)}</select></Field>
       <Field label="YouTube URL"><input className="admin-field" name="youtubeUrl" defaultValue={textValue(sermon?.youtubeUrl)} /></Field>
       <Field label="Thumbnail"><input className="admin-field" name="thumbnail" defaultValue={textValue(sermon?.thumbnail)} /></Field>
       <Field label="Bible Verse"><input className="admin-field" name="bibleVerse" defaultValue={textValue(sermon?.bibleVerse)} /></Field>
@@ -106,7 +106,7 @@ export function AlbumForm({ album, branches }: { album?: AdminEntity; branches: 
       <Field label="Title"><input className="admin-field" name="title" defaultValue={textValue(album?.title)} required /></Field>
       <Field label="Slug"><input className="admin-field" name="slug" defaultValue={textValue(album?.slug)} /></Field>
       <Field label="Date"><input className="admin-field" name="date" type="date" defaultValue={dateInputValue(album?.date, "date")} required /></Field>
-      <Field label="Branch"><select className="admin-field" name="branchId" defaultValue={textValue(album?.branchId)}><option value="">-</option>{branches.map((b) => <option key={b.id} value={b.id}>{b.name}</option>)}</select></Field>
+      <Field label="Branch"><select className="admin-field" name="branchId" defaultValue={textValue(album?.branchId)}><option value="">-</option>{branches.map((b: BranchOption) => <option key={b.id} value={b.id}>{b.name}</option>)}</select></Field>
       <Field label="Cover Image"><input className="admin-field" name="coverImage" defaultValue={textValue(album?.coverImage)} /></Field>
       <Field label="Status"><select className="admin-field" name="status" defaultValue={textValue(album?.status) || "DRAFT"}><option>DRAFT</option><option>PUBLISHED</option><option>ARCHIVED</option></select></Field>
       <Field label="Description"><textarea className="admin-field min-h-32 md:col-span-2" name="description" defaultValue={textValue(album?.description)} required /></Field>
@@ -118,7 +118,7 @@ export function AlbumForm({ album, branches }: { album?: AdminEntity; branches: 
 export function SiteSettingsForm({ settings }: { settings: AdminEntity }) {
   return (
     <form action={saveSiteSettings} className="grid gap-4 rounded-[18px] bg-white p-6 md:grid-cols-2">
-      {["siteName", "tagline", "logoUrl", "faviconUrl", "primaryPhone", "primaryEmail", "instagramUrl", "youtubeUrl", "facebookUrl", "seoTitle", "ogImageUrl"].map((name) => (
+      {["siteName", "tagline", "logoUrl", "faviconUrl", "primaryPhone", "primaryEmail", "instagramUrl", "youtubeUrl", "facebookUrl", "seoTitle", "ogImageUrl"].map((name: string) => (
         <Field key={name} label={name}><input className="admin-field" name={name} defaultValue={textValue(settings?.[name])} /></Field>
       ))}
       <Field label="Description"><textarea className="admin-field min-h-28" name="description" defaultValue={textValue(settings?.description)} required /></Field>

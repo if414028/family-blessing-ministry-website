@@ -2,7 +2,9 @@ import Link from "next/link";
 import { UserMenu } from "@/components/admin/UserMenu";
 import { isSuperAdmin, requireCurrentUser } from "@/lib/admin-auth";
 
-const items = [
+type NavItem = readonly [string, string];
+
+const items: NavItem[] = [
   ["Dashboard", "/admin"],
   ["Branches", "/admin/branches"],
   ["Events", "/admin/events"],
@@ -14,7 +16,7 @@ const items = [
   ["Media Library", "/admin/media"],
 ];
 
-const branchItems = [
+const branchItems: NavItem[] = [
   ["Dashboard", "/admin"],
   ["Events", "/admin/events"],
   ["Sermons", "/admin/sermons"],
@@ -31,7 +33,7 @@ export async function AdminShell({ children }: { children: React.ReactNode }) {
       <aside className="bg-black p-5 text-white">
         <Link href="/admin" className="text-xl font-semibold">Family Blessing CMS</Link>
         <nav className="mt-8 grid gap-1 text-sm text-white/75">
-          {navItems.map(([label, href]) => <Link key={href} className="rounded-lg px-3 py-2 hover:bg-white/10 hover:text-white" href={href}>{label}</Link>)}
+          {navItems.map(([label, href]: NavItem) => <Link key={href} className="rounded-lg px-3 py-2 hover:bg-white/10 hover:text-white" href={href}>{label}</Link>)}
         </nav>
       </aside>
       <div>

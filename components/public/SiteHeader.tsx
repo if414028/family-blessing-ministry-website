@@ -2,7 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { getSiteSettings } from "@/lib/data";
 
-const navItems = [
+type NavItem = readonly [string, string];
+
+const navItems: NavItem[] = [
   ["Home", "/"],
   ["Tentang Kami", "/tentang-kami"],
   ["Cabang", "/cabang"],
@@ -34,7 +36,7 @@ export async function SiteHeader() {
           <span>{settings.siteName}</span>
         </Link>
         <nav className="hidden items-center gap-5 text-xs text-white/80 lg:flex">
-          {navItems.map(([label, href]) => (
+          {navItems.map(([label, href]: NavItem) => (
             <Link key={href + label} className="transition hover:text-white" href={href}>
               {label}
             </Link>
