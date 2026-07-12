@@ -1,4 +1,5 @@
 import { saveAlbum, saveBranch, saveEvent, savePageContent, saveSermon, saveSiteSettings } from "@/lib/actions";
+import { EventCoverImageField } from "@/components/admin/EventCoverImageField";
 
 type AdminValue = string | number | boolean | Date | null | undefined | object;
 type AdminEntity = Record<string, AdminValue> & { id?: string };
@@ -70,7 +71,7 @@ export function EventForm({ event, branches }: { event?: AdminEntity; branches: 
       <Field label="End Date"><input className="admin-field" name="endDate" type="datetime-local" defaultValue={dateInputValue(event?.endDate, "datetime")} /></Field>
       <Field label="Location"><input className="admin-field" name="location" defaultValue={textValue(event?.location)} /></Field>
       <Field label="Branch"><select className="admin-field" name="branchId" defaultValue={textValue(event?.branchId)}><option value="">-</option>{branches.map((b: BranchOption) => <option key={b.id} value={b.id}>{b.name}</option>)}</select></Field>
-      <Field label="Cover Image"><input className="admin-field" name="coverImage" defaultValue={textValue(event?.coverImage)} /></Field>
+      <Field label="Cover Image"><EventCoverImageField initialUrl={textValue(event?.coverImage)} /></Field>
       <Field label="Registration Link"><input className="admin-field" name="registrationLink" defaultValue={textValue(event?.registrationLink)} /></Field>
       <Field label="Status"><select className="admin-field" name="status" defaultValue={textValue(event?.status) || "DRAFT"}><option>DRAFT</option><option>PUBLISHED</option><option>ARCHIVED</option></select></Field>
       <label className="mt-8 text-sm"><input name="isFeatured" type="checkbox" value="true" defaultChecked={booleanValue(event?.isFeatured)} /> Featured</label>
