@@ -16,7 +16,14 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
   if (!event) notFound();
   return (
     <main>
-      <section className="bg-black px-5 py-20 text-white">
+      <section className="relative isolate overflow-hidden bg-black px-5 py-20 text-white">
+        {event.coverImage ? (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className="absolute inset-0 -z-20 h-full w-full object-cover opacity-45" src={event.coverImage} alt="" aria-hidden="true" />
+            <div className="absolute inset-0 -z-10 bg-black/60" />
+          </>
+        ) : null}
         <div className="mx-auto max-w-4xl">
           <p className="text-[#2997ff]">{formatDate(event.startDate)}</p>
           <h1 className="mt-3 text-5xl font-semibold">{event.title}</h1>

@@ -29,17 +29,23 @@ export function BranchCard({ branch }: { branch: BranchLike }) {
   );
 }
 
-export function EventCard({ event }: { event: { title: string; slug: string; startDate: Date; location?: string | null; description: string } }) {
+export function EventCard({ event }: { event: { title: string; slug: string; startDate: Date; location?: string | null; description: string; coverImage?: string | null } }) {
   return (
-    <article className="rounded-[18px] bg-white p-6">
-      <p className="flex items-center gap-2 text-sm text-[#0066cc]">
-        <CalendarDays size={16} /> {formatDate(event.startDate)}
-      </p>
-      <h3 className="mt-3 text-xl font-semibold text-[#1d1d1f]">{event.title}</h3>
-      <p className="mt-2 line-clamp-3 text-sm leading-6 text-[#7a7a7a]">{event.description}</p>
-      <Link className="mt-5 inline-flex text-sm font-medium text-[#0066cc]" href={`/events/${event.slug}`}>
-        Lihat detail
-      </Link>
+    <article className="overflow-hidden rounded-[18px] bg-white">
+      {event.coverImage ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img className="aspect-[16/9] w-full object-cover" src={event.coverImage} alt={`Cover event ${event.title}`} />
+      ) : null}
+      <div className="p-6">
+        <p className="flex items-center gap-2 text-sm text-[#0066cc]">
+          <CalendarDays size={16} /> {formatDate(event.startDate)}
+        </p>
+        <h3 className="mt-3 text-xl font-semibold text-[#1d1d1f]">{event.title}</h3>
+        <p className="mt-2 line-clamp-3 text-sm leading-6 text-[#7a7a7a]">{event.description}</p>
+        <Link className="mt-5 inline-flex text-sm font-medium text-[#0066cc]" href={`/events/${event.slug}`}>
+          Lihat detail
+        </Link>
+      </div>
     </article>
   );
 }

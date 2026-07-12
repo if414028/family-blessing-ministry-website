@@ -166,7 +166,7 @@ export async function deleteBranch(id: string) {
   revalidatePath("/admin/branches");
 }
 
-export async function saveEvent(id: string | null, formData: FormData) {
+export async function saveEvent(id: string | null, formData: FormData): Promise<{ redirectTo: string }> {
   const user = await requireCurrentUser();
   const parsed = eventSchema.parse(Object.fromEntries(formData));
   const branchId = ownedBranchId(user, parsed.branchId);
@@ -184,8 +184,10 @@ export async function saveEvent(id: string | null, formData: FormData) {
     await prisma.event.update({ where: { id }, data });
   }
   else await prisma.event.create({ data });
+  revalidatePath("/");
   revalidatePath("/events");
-  redirect("/admin/events");
+  revalidatePath(`/events/${data.slug}`);
+  return { redirectTo: "/admin/events" };
 }
 
 export async function deleteEvent(id: string) {

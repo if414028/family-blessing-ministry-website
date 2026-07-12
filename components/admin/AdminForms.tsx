@@ -1,5 +1,4 @@
-import { saveAlbum, saveBranch, saveEvent, savePageContent, saveSermon, saveSiteSettings } from "@/lib/actions";
-import { EventCoverImageField } from "@/components/admin/EventCoverImageField";
+import { saveAlbum, saveBranch, savePageContent, saveSermon, saveSiteSettings } from "@/lib/actions";
 
 type AdminValue = string | number | boolean | Date | null | undefined | object;
 type AdminEntity = Record<string, AdminValue> & { id?: string };
@@ -57,26 +56,6 @@ export function BranchForm({ branch }: { branch?: AdminEntity }) {
         <label><input name="showYoutube" type="checkbox" value="true" defaultChecked={booleanValue(branch?.showYoutube, true)} /> Show YouTube</label>
       </div>
       <button className="rounded-full bg-[#0066cc] px-5 py-3 text-white md:col-span-2">Simpan Cabang</button>
-    </form>
-  );
-}
-
-export function EventForm({ event, branches }: { event?: AdminEntity; branches: BranchOption[] }) {
-  const action = saveEvent.bind(null, event?.id ?? null);
-  return (
-    <form action={action} className="grid gap-4 rounded-[18px] bg-white p-6 md:grid-cols-2">
-      <Field label="Title"><input className="admin-field" name="title" defaultValue={textValue(event?.title)} required /></Field>
-      <Field label="Slug"><input className="admin-field" name="slug" defaultValue={textValue(event?.slug)} /></Field>
-      <Field label="Start Date"><input className="admin-field" name="startDate" type="datetime-local" defaultValue={dateInputValue(event?.startDate, "datetime")} required /></Field>
-      <Field label="End Date"><input className="admin-field" name="endDate" type="datetime-local" defaultValue={dateInputValue(event?.endDate, "datetime")} /></Field>
-      <Field label="Location"><input className="admin-field" name="location" defaultValue={textValue(event?.location)} /></Field>
-      <Field label="Branch"><select className="admin-field" name="branchId" defaultValue={textValue(event?.branchId)}><option value="">-</option>{branches.map((b: BranchOption) => <option key={b.id} value={b.id}>{b.name}</option>)}</select></Field>
-      <Field label="Cover Image"><EventCoverImageField initialUrl={textValue(event?.coverImage)} /></Field>
-      <Field label="Registration Link"><input className="admin-field" name="registrationLink" defaultValue={textValue(event?.registrationLink)} /></Field>
-      <Field label="Status"><select className="admin-field" name="status" defaultValue={textValue(event?.status) || "DRAFT"}><option>DRAFT</option><option>PUBLISHED</option><option>ARCHIVED</option></select></Field>
-      <label className="mt-8 text-sm"><input name="isFeatured" type="checkbox" value="true" defaultChecked={booleanValue(event?.isFeatured)} /> Featured</label>
-      <Field label="Description"><textarea className="admin-field min-h-32 md:col-span-2" name="description" defaultValue={textValue(event?.description)} required /></Field>
-      <button className="rounded-full bg-[#0066cc] px-5 py-3 text-white md:col-span-2">Simpan Event</button>
     </form>
   );
 }

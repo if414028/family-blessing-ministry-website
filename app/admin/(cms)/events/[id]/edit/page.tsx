@@ -1,6 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 import { AdminPageHeader } from "@/components/admin/AdminShell";
-import { EventForm } from "@/components/admin/AdminForms";
+import { EventForm } from "@/components/admin/EventForm";
 import { isSuperAdmin, requireCurrentUser } from "@/lib/admin-auth";
 import { prisma } from "@/lib/db";
 
