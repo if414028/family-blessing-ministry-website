@@ -60,5 +60,33 @@ export function AdminPageHeader({ title, description, action }: { title: string;
 }
 
 export function StatusBadge({ children }: { children: React.ReactNode }) {
-  return <span className="rounded-full bg-[#f5f5f7] px-3 py-1 text-xs font-medium">{children}</span>;
+  const label = String(children);
+  const normalized = label.replace(/[ _-]/g, "").toUpperCase();
+  const colorClass = badgeColor(normalized);
+
+  return (
+    <span className={`inline-flex min-w-20 items-center justify-center rounded-full px-2.5 py-1 text-center text-[11px] font-semibold leading-none ${colorClass}`}>
+      {children}
+    </span>
+  );
+}
+
+function badgeColor(label: string) {
+  if (["ACTIVE", "ONSITE", "PUBLISHED", "BRANCHADMIN"].includes(label)) {
+    return "bg-[#e8f7ee] text-[#16803c]";
+  }
+
+  if (["ZOOM", "SUPERADMIN", "ADMIN"].includes(label)) {
+    return "bg-[#e9f2ff] text-[#0066cc]";
+  }
+
+  if (label === "EDITOR") {
+    return "bg-[#fff0df] text-[#bd6512]";
+  }
+
+  if (label === "ARCHIVED") {
+    return "bg-[#fff7d6] text-[#8a6500]";
+  }
+
+  return "bg-[#f1f1f3] text-[#6e6e73]";
 }

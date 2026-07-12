@@ -11,6 +11,10 @@ export const metadata: Metadata = {
   },
   description:
     "Persekutuan doa Kristen yang rindu melihat setiap keluarga mengalami pemulihan, pertumbuhan iman, dan lawatan Tuhan.",
+  icons: {
+    icon: "/icon.png",
+    apple: "/icon.png",
+  },
   openGraph: {
     title: "Family Blessing",
     description:
