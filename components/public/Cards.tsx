@@ -34,7 +34,7 @@ export function EventCard({ event }: { event: { title: string; slug: string; sta
     <article className="overflow-hidden rounded-[18px] bg-white">
       {event.coverImage ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img className="aspect-[16/9] w-full object-cover" src={event.coverImage} alt={`Cover event ${event.title}`} />
+        <img className="aspect-[4/5] w-full object-cover" src={event.coverImage} alt={`Cover event ${event.title}`} />
       ) : null}
       <div className="p-6">
         <p className="flex items-center gap-2 text-sm text-[#0066cc]">
