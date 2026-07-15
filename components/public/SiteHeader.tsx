@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getSiteSettings } from "@/lib/data";
+import { MobileNavigation } from "@/components/public/MobileNavigation";
 
 type NavItem = readonly [string, string];
 
@@ -42,9 +43,10 @@ export async function SiteHeader() {
             </Link>
           ))}
         </nav>
-        <Link className="rounded-full bg-[#0066cc] px-4 py-2 text-sm font-medium text-white" href="/admin/login">
+        <Link className="hidden rounded-full bg-[#0066cc] px-4 py-2 text-sm font-medium text-white lg:block" href="/admin/login">
           Login
         </Link>
+        <MobileNavigation items={navItems} />
       </div>
     </header>
   );
