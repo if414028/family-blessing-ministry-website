@@ -29,7 +29,7 @@ function dateInputValue(value: AdminValue, mode: "date" | "datetime") {
 export function BranchForm({ branch }: { branch?: AdminEntity }) {
   const action = saveBranch.bind(null, branch?.id ?? null);
   return (
-    <form action={action} className="grid gap-4 rounded-[18px] bg-white p-6 md:grid-cols-2">
+    <form action={action} className="admin-form grid gap-5 md:grid-cols-2">
       <Field label="Nama"><input className="admin-field" name="name" defaultValue={textValue(branch?.name)} required /></Field>
       <Field label="Slug"><input className="admin-field" name="slug" defaultValue={textValue(branch?.slug)} /></Field>
       <Field label="Type"><select className="admin-field" name="type" defaultValue={textValue(branch?.type) || "ONSITE"}><option>ONSITE</option><option>ZOOM</option></select></Field>
@@ -49,13 +49,13 @@ export function BranchForm({ branch }: { branch?: AdminEntity }) {
       <Field label="Zoom Info"><textarea className="admin-field" name="zoomInfo" defaultValue={textValue(branch?.zoomInfo)} /></Field>
       <Field label="Map Embed URL"><textarea className="admin-field" name="mapEmbedUrl" defaultValue={textValue(branch?.mapEmbedUrl)} /></Field>
       <Field label="Sort Order"><input className="admin-field" name="sortOrder" type="number" defaultValue={numberValue(branch?.sortOrder)} /></Field>
-      <div className="flex flex-wrap gap-4 text-sm md:col-span-2">
-        <label><input name="isActive" type="checkbox" value="true" defaultChecked={booleanValue(branch?.isActive, true)} /> Active</label>
-        <label><input name="showContact" type="checkbox" value="true" defaultChecked={booleanValue(branch?.showContact, true)} /> Show Contact</label>
-        <label><input name="showBankAccount" type="checkbox" value="true" defaultChecked={booleanValue(branch?.showBankAccount, true)} /> Show Bank</label>
-        <label><input name="showYoutube" type="checkbox" value="true" defaultChecked={booleanValue(branch?.showYoutube, true)} /> Show YouTube</label>
+      <div className="flex flex-wrap gap-2 border-t border-[#e8e8ed] pt-4 text-sm md:col-span-2">
+        <label className="admin-checkbox"><input name="isActive" type="checkbox" value="true" defaultChecked={booleanValue(branch?.isActive, true)} /> Active</label>
+        <label className="admin-checkbox"><input name="showContact" type="checkbox" value="true" defaultChecked={booleanValue(branch?.showContact, true)} /> Show Contact</label>
+        <label className="admin-checkbox"><input name="showBankAccount" type="checkbox" value="true" defaultChecked={booleanValue(branch?.showBankAccount, true)} /> Show Bank</label>
+        <label className="admin-checkbox"><input name="showYoutube" type="checkbox" value="true" defaultChecked={booleanValue(branch?.showYoutube, true)} /> Show YouTube</label>
       </div>
-      <button className="rounded-full bg-[#0066cc] px-5 py-3 text-white md:col-span-2">Simpan Cabang</button>
+      <button className="admin-primary-button md:col-span-2">Simpan Cabang</button>
     </form>
   );
 }
@@ -63,9 +63,8 @@ export function BranchForm({ branch }: { branch?: AdminEntity }) {
 export function SermonForm({ sermon, branches }: { sermon?: AdminEntity; branches: BranchOption[] }) {
   const action = saveSermon.bind(null, sermon?.id ?? null);
   return (
-    <form action={action} className="grid gap-4 rounded-[18px] bg-white p-6 md:grid-cols-2">
+    <form action={action} className="admin-form grid gap-5 md:grid-cols-2">
       <Field label="Title"><input className="admin-field" name="title" defaultValue={textValue(sermon?.title)} required /></Field>
-      <Field label="Slug"><input className="admin-field" name="slug" defaultValue={textValue(sermon?.slug)} /></Field>
       <Field label="Speaker"><input className="admin-field" name="speaker" defaultValue={textValue(sermon?.speaker)} required /></Field>
       <Field label="Date"><input className="admin-field" name="date" type="date" defaultValue={dateInputValue(sermon?.date, "date")} required /></Field>
       <Field label="Branch"><select className="admin-field" name="branchId" defaultValue={textValue(sermon?.branchId)}><option value="">-</option>{branches.map((b: BranchOption) => <option key={b.id} value={b.id}>{b.name}</option>)}</select></Field>
@@ -74,7 +73,7 @@ export function SermonForm({ sermon, branches }: { sermon?: AdminEntity; branche
       <Field label="Bible Verse"><input className="admin-field" name="bibleVerse" defaultValue={textValue(sermon?.bibleVerse)} /></Field>
       <Field label="Status"><select className="admin-field" name="status" defaultValue={textValue(sermon?.status) || "DRAFT"}><option>DRAFT</option><option>PUBLISHED</option><option>ARCHIVED</option></select></Field>
       <Field label="Description"><textarea className="admin-field min-h-32 md:col-span-2" name="description" defaultValue={textValue(sermon?.description)} required /></Field>
-      <button className="rounded-full bg-[#0066cc] px-5 py-3 text-white md:col-span-2">Simpan Sermon</button>
+      <button className="admin-primary-button md:col-span-2">Simpan Sermon</button>
     </form>
   );
 }
@@ -82,7 +81,7 @@ export function SermonForm({ sermon, branches }: { sermon?: AdminEntity; branche
 export function AlbumForm({ album, branches }: { album?: AdminEntity; branches: BranchOption[] }) {
   const action = saveAlbum.bind(null, album?.id ?? null);
   return (
-    <form action={action} className="grid gap-4 rounded-[18px] bg-white p-6 md:grid-cols-2">
+    <form action={action} className="admin-form grid gap-5 md:grid-cols-2">
       <Field label="Title"><input className="admin-field" name="title" defaultValue={textValue(album?.title)} required /></Field>
       <Field label="Slug"><input className="admin-field" name="slug" defaultValue={textValue(album?.slug)} /></Field>
       <Field label="Date"><input className="admin-field" name="date" type="date" defaultValue={dateInputValue(album?.date, "date")} required /></Field>
@@ -90,22 +89,22 @@ export function AlbumForm({ album, branches }: { album?: AdminEntity; branches: 
       <Field label="Cover Image"><input className="admin-field" name="coverImage" defaultValue={textValue(album?.coverImage)} /></Field>
       <Field label="Status"><select className="admin-field" name="status" defaultValue={textValue(album?.status) || "DRAFT"}><option>DRAFT</option><option>PUBLISHED</option><option>ARCHIVED</option></select></Field>
       <Field label="Description"><textarea className="admin-field min-h-32 md:col-span-2" name="description" defaultValue={textValue(album?.description)} required /></Field>
-      <button className="rounded-full bg-[#0066cc] px-5 py-3 text-white md:col-span-2">Simpan Album</button>
+      <button className="admin-primary-button md:col-span-2">Simpan Album</button>
     </form>
   );
 }
 
 export function SiteSettingsForm({ settings }: { settings: AdminEntity }) {
   return (
-    <form action={saveSiteSettings} className="grid gap-4 rounded-[18px] bg-white p-6 md:grid-cols-2">
+    <form action={saveSiteSettings} className="admin-form grid gap-5 md:grid-cols-2">
       {["siteName", "tagline", "logoUrl", "faviconUrl", "primaryPhone", "primaryEmail", "instagramUrl", "youtubeUrl", "facebookUrl", "seoTitle", "ogImageUrl"].map((name: string) => (
         <Field key={name} label={name}><input className="admin-field" name={name} defaultValue={textValue(settings?.[name])} /></Field>
       ))}
       <Field label="Description"><textarea className="admin-field min-h-28" name="description" defaultValue={textValue(settings?.description)} required /></Field>
       <Field label="Address"><textarea className="admin-field min-h-28" name="address" defaultValue={textValue(settings?.address)} /></Field>
       <Field label="SEO Description"><textarea className="admin-field min-h-28" name="seoDescription" defaultValue={textValue(settings?.seoDescription)} required /></Field>
-      <label className="mt-8 text-sm"><input name="maintenanceMode" type="checkbox" value="true" defaultChecked={booleanValue(settings?.maintenanceMode)} /> Maintenance Mode</label>
-      <button className="rounded-full bg-[#0066cc] px-5 py-3 text-white md:col-span-2">Simpan Settings</button>
+      <label className="admin-checkbox mt-7"><input name="maintenanceMode" type="checkbox" value="true" defaultChecked={booleanValue(settings?.maintenanceMode)} /> Maintenance Mode</label>
+      <button className="admin-primary-button md:col-span-2">Simpan Settings</button>
     </form>
   );
 }
@@ -113,11 +112,11 @@ export function SiteSettingsForm({ settings }: { settings: AdminEntity }) {
 export function PageContentForm({ page }: { page?: AdminEntity }) {
   const action = savePageContent.bind(null, page?.id ?? null);
   return (
-    <form action={action} className="grid gap-4 rounded-[18px] bg-white p-6">
+    <form action={action} className="admin-form grid gap-5">
       <Field label="Slug"><input className="admin-field" name="slug" defaultValue={textValue(page?.slug)} required /></Field>
       <Field label="Title"><input className="admin-field" name="title" defaultValue={textValue(page?.title)} required /></Field>
       <Field label="Content"><textarea className="admin-field min-h-40" name="content" defaultValue={textValue(page?.content)} required /></Field>
-      <button className="rounded-full bg-[#0066cc] px-5 py-3 text-white">Simpan Page</button>
+      <button className="admin-primary-button">Simpan Page</button>
     </form>
   );
 }

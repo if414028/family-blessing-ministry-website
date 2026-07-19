@@ -28,10 +28,10 @@ export default async function AdminProfilePage() {
         }
       />
 
-      <section className="overflow-hidden rounded-[20px] bg-white shadow-sm ring-1 ring-black/5">
-        <div className="bg-[linear-gradient(135deg,#0066cc,#0f172a)] px-6 py-8 text-white md:px-8">
+      <section className="admin-list overflow-hidden">
+        <div className="bg-black px-6 py-8 text-white md:px-8">
           <div className="flex flex-wrap items-center gap-5">
-            <div className="grid h-20 w-20 place-items-center rounded-full bg-white text-3xl font-semibold text-[#0066cc] shadow-lg">
+            <div className="grid h-20 w-20 place-items-center rounded-full bg-white text-3xl font-semibold text-[#0066cc]">
               {user.name.charAt(0).toUpperCase()}
             </div>
             <div>
@@ -73,7 +73,7 @@ function ProfileInfoCard({
   value: React.ReactNode;
 }) {
   return (
-    <div className="rounded-[16px] border border-[#e0e0e0] p-5">
+    <div className="rounded-[16px] border border-[#e0e0e0] bg-[#fafafc] p-5">
       <div className="flex items-center gap-2 text-[#0066cc]">
         {icon}
         <p className="text-sm font-semibold">{label}</p>

@@ -12,7 +12,7 @@ export default async function MediaPage() {
   return (
     <div>
       <AdminPageHeader title="Media Library" description="Upload abstraction awal memakai public/uploads; model MediaFile sudah disiapkan untuk diganti storage lain nanti." />
-      <div className="grid gap-4 md:grid-cols-3">{files.map((file: AdminMediaFile) => <div key={file.id} className="rounded-[18px] bg-white p-4"><p className="font-semibold">{file.fileName}</p><p className="text-sm text-[#7a7a7a]">{file.mimeType} - {file.size} bytes</p></div>)}</div>
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">{files.length ? files.map((file: AdminMediaFile) => <div key={file.id} className="admin-card transition hover:border-[#c7c7cc]"><p className="truncate font-semibold">{file.fileName}</p><p className="mt-2 text-sm text-[#6e6e73]">{file.mimeType} · {file.size.toLocaleString("id-ID")} bytes</p></div>) : <div className="admin-card admin-empty md:col-span-2 xl:col-span-3">Belum ada media yang tersimpan.</div>}</div>
     </div>
   );
 }

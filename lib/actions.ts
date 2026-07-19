@@ -46,7 +46,6 @@ const branchSchema = z.object({
 
 const eventSchema = z.object({
   title: z.string().min(2),
-  slug: z.string().trim().optional(),
   description: z.string().min(3),
   startDate: z.string().min(1),
   endDate: optionalString,
@@ -60,7 +59,6 @@ const eventSchema = z.object({
 
 const sermonSchema = z.object({
   title: z.string().min(2),
-  slug: z.string().trim().optional(),
   speaker: z.string().min(2),
   date: z.string().min(1),
   branchId: optionalString,
@@ -171,21 +169,25 @@ export async function saveEvent(id: string | null, formData: FormData): Promise<
   const parsed = eventSchema.parse(Object.fromEntries(formData));
   const branchId = ownedBranchId(user, parsed.branchId);
   if (!isSuperAdmin(user) && !branchId) redirect("/admin/events");
+  const slug = await uniqueEventSlug(parsed.title, id);
   const data = {
     ...parsed,
     branchId,
-    slug: parsed.slug ? toSlug(parsed.slug) : toSlug(parsed.title),
+    slug,
     startDate: new Date(parsed.startDate),
     endDate: parsed.endDate ? new Date(parsed.endDate) : null,
   };
+  let previousSlug: string | null = null;
   if (id) {
-    const current = await prisma.event.findUnique({ where: { id }, select: { branchId: true } });
+    const current = await prisma.event.findUnique({ where: { id }, select: { branchId: true, slug: true } });
     if (!current || (!isSuperAdmin(user) && current.branchId !== user.branchId)) redirect("/admin/events");
+    previousSlug = current.slug;
     await prisma.event.update({ where: { id }, data });
   }
   else await prisma.event.create({ data });
   revalidatePath("/");
   revalidatePath("/events");
+  if (previousSlug && previousSlug !== data.slug) revalidatePath(`/events/${previousSlug}`);
   revalidatePath(`/events/${data.slug}`);
   return { redirectTo: "/admin/events" };
 }
@@ -203,21 +205,58 @@ export async function saveSermon(id: string | null, formData: FormData) {
   const parsed = sermonSchema.parse(Object.fromEntries(formData));
   const branchId = ownedBranchId(user, parsed.branchId);
   if (!isSuperAdmin(user) && !branchId) redirect("/admin/sermons");
+  const slug = await uniqueSermonSlug(parsed.title, id);
   const data = {
     ...parsed,
     branchId,
-    slug: parsed.slug ? toSlug(parsed.slug) : toSlug(parsed.title),
+    slug,
     date: new Date(parsed.date),
     youtubeEmbedId: getYoutubeEmbedId(parsed.youtubeUrl),
   };
+  let previousSlug: string | null = null;
   if (id) {
-    const current = await prisma.sermon.findUnique({ where: { id }, select: { branchId: true } });
+    const current = await prisma.sermon.findUnique({ where: { id }, select: { branchId: true, slug: true } });
     if (!current || (!isSuperAdmin(user) && current.branchId !== user.branchId)) redirect("/admin/sermons");
+    previousSlug = current.slug;
     await prisma.sermon.update({ where: { id }, data });
   }
   else await prisma.sermon.create({ data });
   revalidatePath("/khotbah");
+  if (previousSlug && previousSlug !== data.slug) revalidatePath(`/khotbah/${previousSlug}`);
+  revalidatePath(`/khotbah/${data.slug}`);
   redirect("/admin/sermons");
+}
+
+async function uniqueEventSlug(title: string, currentId: string | null) {
+  const base = toSlug(title) || "event";
+  let slug = base;
+  let suffix = 2;
+
+  while (await prisma.event.findFirst({
+    where: { slug, ...(currentId ? { NOT: { id: currentId } } : {}) },
+    select: { id: true },
+  })) {
+    slug = `${base}-${suffix}`;
+    suffix += 1;
+  }
+
+  return slug;
+}
+
+async function uniqueSermonSlug(title: string, currentId: string | null) {
+  const base = toSlug(title) || "sermon";
+  let slug = base;
+  let suffix = 2;
+
+  while (await prisma.sermon.findFirst({
+    where: { slug, ...(currentId ? { NOT: { id: currentId } } : {}) },
+    select: { id: true },
+  })) {
+    slug = `${base}-${suffix}`;
+    suffix += 1;
+  }
+
+  return slug;
 }
 
 export async function deleteSermon(id: string) {

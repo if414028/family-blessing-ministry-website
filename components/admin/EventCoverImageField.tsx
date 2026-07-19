@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 
 const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
@@ -82,7 +83,14 @@ export function EventCoverImageField({ initialUrl = "" }: { initialUrl?: string 
         />
       </label>
       {imageUrl ? (
-        <img className="aspect-video w-full rounded-[12px] border border-[#e0e0e0] object-cover" src={imageUrl} alt="Preview cover event" />
+        <Image
+          className="aspect-video w-full rounded-[12px] border border-[#e0e0e0] object-cover"
+          src={imageUrl}
+          alt="Preview cover event"
+          width={800}
+          height={450}
+          unoptimized
+        />
       ) : null}
       {message ? <p className={`text-sm ${message.startsWith("Gambar berhasil") ? "text-green-700" : "text-[#7a7a7a]"}`}>{message}</p> : null}
     </div>

@@ -27,12 +27,12 @@ export function UserMenu({ user }: AdminUserMenuProps) {
     <div className="relative">
       <button
         type="button"
-        className="flex items-center gap-3 rounded-full px-2 py-1.5 text-left transition hover:bg-[#f5f5f7]"
+        className="flex min-h-11 items-center gap-3 rounded-full px-2 py-1.5 text-left transition hover:bg-[#f5f5f7]"
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
         aria-haspopup="menu"
       >
-        <span className="grid h-10 w-10 place-items-center rounded-full bg-[#2563eb] text-sm font-semibold text-white">
+        <span className="grid h-10 w-10 place-items-center rounded-full bg-[#0066cc] text-sm font-semibold text-white">
           {initial}
         </span>
         <span className="hidden min-w-0 md:block">
@@ -50,7 +50,7 @@ export function UserMenu({ user }: AdminUserMenuProps) {
           </div>
           <div className="border-t border-[#e0e0e0]">
             <Link
-              className="flex items-center gap-3 px-5 py-3 text-sm font-medium text-[#3a3a3c] transition hover:bg-[#f5f5f7]"
+              className="flex min-h-11 items-center gap-3 px-5 py-3 text-sm font-medium text-[#3a3a3c] transition hover:bg-[#f5f5f7]"
               href="/admin/profile"
               onClick={() => setOpen(false)}
             >
@@ -61,7 +61,7 @@ export function UserMenu({ user }: AdminUserMenuProps) {
           <div className="border-t border-[#e0e0e0]">
             <button
               type="button"
-              className="flex w-full items-center gap-3 px-5 py-3 text-left text-sm font-medium text-[#3a3a3c] transition hover:bg-[#f5f5f7] disabled:opacity-60"
+              className="flex min-h-11 w-full items-center gap-3 px-5 py-3 text-left text-sm font-medium text-[#3a3a3c] transition hover:bg-[#f5f5f7] disabled:opacity-60"
               onClick={handleLogout}
               disabled={pending}
             >

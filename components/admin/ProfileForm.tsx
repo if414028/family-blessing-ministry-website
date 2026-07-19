@@ -15,7 +15,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
   const [state, formAction, pending] = useActionState(updateProfile, undefined);
 
   return (
-    <form action={formAction} className="grid gap-5 rounded-[18px] bg-white p-6 shadow-sm ring-1 ring-black/5">
+    <form action={formAction} className="admin-form grid gap-5">
       <div className="grid gap-5 md:grid-cols-2">
         <label className="grid gap-2 text-sm font-medium text-[#3a3a3c]">
           Nama
@@ -49,7 +49,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
       ) : null}
 
       <div className="flex flex-wrap gap-3">
-        <button className="rounded-full bg-[#0066cc] px-5 py-3 font-medium text-white disabled:opacity-60" disabled={pending}>
+        <button className="admin-primary-button" disabled={pending}>
           {pending ? "Menyimpan..." : "Simpan Profile"}
         </button>
         <Link className="rounded-full border border-[#d6d6d6] px-5 py-3 font-medium text-[#1d1d1f]" href="/admin/profile">

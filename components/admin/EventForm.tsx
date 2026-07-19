@@ -9,7 +9,6 @@ type EventValue = string | boolean | Date | null | undefined;
 type EventEntity = {
   id?: string;
   title?: EventValue;
-  slug?: EventValue;
   startDate?: EventValue;
   endDate?: EventValue;
   location?: EventValue;
@@ -50,9 +49,8 @@ export function EventForm({ event, branches }: { event?: EventEntity; branches: 
   }
 
   return (
-    <form action={submit} className="grid gap-4 rounded-[18px] bg-white p-6 md:grid-cols-2">
+    <form action={submit} className="admin-form grid gap-5 md:grid-cols-2">
       <label className="grid gap-1 text-sm font-medium">Title<input className="admin-field" name="title" defaultValue={textValue(event?.title)} required /></label>
-      <label className="grid gap-1 text-sm font-medium">Slug<input className="admin-field" name="slug" defaultValue={textValue(event?.slug)} /></label>
       <label className="grid gap-1 text-sm font-medium">Start Date<input className="admin-field" name="startDate" type="datetime-local" defaultValue={dateInputValue(event?.startDate)} required /></label>
       <label className="grid gap-1 text-sm font-medium">End Date<input className="admin-field" name="endDate" type="datetime-local" defaultValue={dateInputValue(event?.endDate)} /></label>
       <label className="grid gap-1 text-sm font-medium">Location<input className="admin-field" name="location" defaultValue={textValue(event?.location)} /></label>
@@ -60,10 +58,10 @@ export function EventForm({ event, branches }: { event?: EventEntity; branches: 
       <label className="grid gap-1 text-sm font-medium">Cover Image<EventCoverImageField initialUrl={textValue(event?.coverImage)} /></label>
       <label className="grid gap-1 text-sm font-medium">Registration Link<input className="admin-field" name="registrationLink" defaultValue={textValue(event?.registrationLink)} /></label>
       <label className="grid gap-1 text-sm font-medium">Status<select className="admin-field" name="status" defaultValue={textValue(event?.status) || "DRAFT"}><option>DRAFT</option><option>PUBLISHED</option><option>ARCHIVED</option></select></label>
-      <label className="mt-8 text-sm"><input name="isFeatured" type="checkbox" value="true" defaultChecked={event?.isFeatured === true} /> Featured</label>
+      <label className="admin-checkbox mt-7"><input name="isFeatured" type="checkbox" value="true" defaultChecked={event?.isFeatured === true} /> Featured</label>
       <label className="grid gap-1 text-sm font-medium md:col-span-2">Description<textarea className="admin-field min-h-32" name="description" defaultValue={textValue(event?.description)} required /></label>
       {message ? <p className="text-sm text-red-700 md:col-span-2">{message}</p> : null}
-      <button className="rounded-full bg-[#0066cc] px-5 py-3 text-white disabled:opacity-60 md:col-span-2" disabled={pending}>{pending ? "Menyimpan..." : "Simpan Event"}</button>
+      <button className="admin-primary-button md:col-span-2" disabled={pending}>{pending ? "Menyimpan..." : "Simpan Event"}</button>
     </form>
   );
 }
