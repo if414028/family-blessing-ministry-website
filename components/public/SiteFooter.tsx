@@ -22,7 +22,8 @@ export async function SiteFooter() {
             <p className="text-xl font-semibold">{settings.siteName}</p>
           </div>
           <p className="mt-3 max-w-md text-sm leading-6 text-[#7a7a7a]">
-            {settings.description}
+            Hadirat Tuhan yang terutama memimpin di setiap Kehidupan kita dan Tinggal dalam
+            Hadirat Nya.
           </p>
         </div>
         <div>
@@ -42,7 +43,16 @@ export async function SiteFooter() {
         </div>
       </div>
       <div className="border-t border-[#e0e0e0] px-5 py-5 text-center text-xs text-[#7a7a7a]">
-        Copyright {new Date().getFullYear()} Family Blessing. All rights reserved.
+        © {new Date().getFullYear()}. All rights reserved. Powered by{" "}
+        <a
+          href="https://neshertechnology.id/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="transition hover:text-[#0066cc]"
+        >
+          Nesher Teknologi Nusantara
+        </a>
+        .
       </div>
     </footer>
   );

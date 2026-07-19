@@ -244,7 +244,7 @@ export const defaultSiteSettings = {
   siteName: "Family Blessing",
   tagline: "A Place of Prayer, Worship, and God's Presence",
   description:
-    "Persekutuan doa Kristen yang rindu melihat setiap keluarga mengalami pemulihan, pertumbuhan iman, dan lawatan Tuhan.",
+    "Hadirat Tuhan yang terutama memimpin di setiap Kehidupan kita dan Tinggal dalam Hadirat Nya.",
   logoUrl: "/uploads/family-blessing-logo.png",
   faviconUrl: null,
   primaryPhone: null,

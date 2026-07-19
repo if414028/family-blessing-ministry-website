@@ -81,12 +81,10 @@ export default async function HomePage() {
             </h2>
             <div className="mt-8 max-w-3xl space-y-5 text-base leading-8 text-white/88 md:text-lg">
               <p>
-                Pelayanan ini diarahkan dengan hati untuk membangun kehidupan doa,
-                penyembahan, dan pengenalan akan firman Tuhan.
+                Pelayanan yg bergerak secara Profetik untuk membangun manusia Roh
               </p>
               <p>
-                Family Blessing rindu melihat setiap keluarga mengalami hadirat Tuhan,
-                dipulihkan, bertumbuh dalam iman, dan menjadi berkat bagi banyak orang.
+                Hadirat Tuhan yg terutama memimpin di setiap Kehidupan kita dan Tinggal dalam Hadirat Nya.
               </p>
             </div>
             <div className="mt-9 flex flex-wrap gap-3">
