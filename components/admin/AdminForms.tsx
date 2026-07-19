@@ -1,4 +1,5 @@
 import { saveAlbum, saveBranch, savePageContent, saveSermon, saveSiteSettings } from "@/lib/actions";
+import { CloudinaryImageField } from "@/components/admin/EventCoverImageField";
 
 type AdminValue = string | number | boolean | Date | null | undefined | object;
 type AdminEntity = Record<string, AdminValue> & { id?: string };
@@ -68,10 +69,21 @@ export function SermonForm({ sermon, branches }: { sermon?: AdminEntity; branche
       <Field label="Speaker"><input className="admin-field" name="speaker" defaultValue={textValue(sermon?.speaker)} required /></Field>
       <Field label="Date"><input className="admin-field" name="date" type="date" defaultValue={dateInputValue(sermon?.date, "date")} required /></Field>
       <Field label="Branch"><select className="admin-field" name="branchId" defaultValue={textValue(sermon?.branchId)}><option value="">-</option>{branches.map((b: BranchOption) => <option key={b.id} value={b.id}>{b.name}</option>)}</select></Field>
-      <Field label="YouTube URL"><input className="admin-field" name="youtubeUrl" defaultValue={textValue(sermon?.youtubeUrl)} /></Field>
-      <Field label="Thumbnail"><input className="admin-field" name="thumbnail" defaultValue={textValue(sermon?.thumbnail)} /></Field>
       <Field label="Bible Verse"><input className="admin-field" name="bibleVerse" defaultValue={textValue(sermon?.bibleVerse)} /></Field>
       <Field label="Status"><select className="admin-field" name="status" defaultValue={textValue(sermon?.status) || "DRAFT"}><option>DRAFT</option><option>PUBLISHED</option><option>ARCHIVED</option></select></Field>
+      <p className="rounded-[11px] bg-[#f5f5f7] px-4 py-3 text-sm leading-6 text-[#6e6e73] md:col-span-2">
+        Link YouTube akan otomatis memakai URL YouTube dari branch yang dipilih.
+      </p>
+      <div className="md:col-span-2">
+        <CloudinaryImageField
+          initialUrl={textValue(sermon?.thumbnail)}
+          fieldName="thumbnail"
+          folder="family-blessing/sermons"
+          label="Upload Thumbnail Sermon"
+          previewAlt="Preview thumbnail sermon"
+          successMessage="Gambar berhasil di-upload. URL akan tersimpan sebagai thumbnail sermon."
+        />
+      </div>
       <Field label="Description"><textarea className="admin-field min-h-32 md:col-span-2" name="description" defaultValue={textValue(sermon?.description)} required /></Field>
       <button className="admin-primary-button md:col-span-2">Simpan Sermon</button>
     </form>

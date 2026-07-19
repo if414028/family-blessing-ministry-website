@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { CalendarDays, MapPin, PlayCircle } from "lucide-react";
 import type { BranchLike } from "@/lib/data";
 import { formatDate } from "@/lib/utils";
@@ -50,18 +51,30 @@ export function EventCard({ event }: { event: { title: string; slug: string; sta
   );
 }
 
-export function SermonCard({ sermon }: { sermon: { title: string; slug: string; speaker: string; date: Date; description: string } }) {
+export function SermonCard({ sermon }: { sermon: { title: string; slug: string; speaker: string; date: Date; description: string; thumbnail?: string | null } }) {
   return (
-    <article className="rounded-[18px] border border-[#e0e0e0] bg-white p-6">
-      <p className="flex items-center gap-2 text-sm text-[#0066cc]">
-        <PlayCircle size={16} /> {formatDate(sermon.date)}
-      </p>
-      <h3 className="mt-3 text-xl font-semibold text-[#1d1d1f]">{sermon.title}</h3>
-      <p className="mt-1 text-sm font-medium text-[#333333]">{sermon.speaker}</p>
-      <p className="mt-2 line-clamp-3 text-sm leading-6 text-[#7a7a7a]">{sermon.description}</p>
-      <Link className="mt-5 inline-flex text-sm font-medium text-[#0066cc]" href={`/khotbah/${sermon.slug}`}>
-        Tonton khotbah
-      </Link>
+    <article className="overflow-hidden rounded-[18px] border border-[#e0e0e0] bg-white">
+      {sermon.thumbnail ? (
+        <Image
+          className="aspect-video w-full object-cover"
+          src={sermon.thumbnail}
+          alt={`Thumbnail sermon ${sermon.title}`}
+          width={800}
+          height={450}
+          unoptimized
+        />
+      ) : null}
+      <div className="p-6">
+        <p className="flex items-center gap-2 text-sm text-[#0066cc]">
+          <PlayCircle size={16} /> {formatDate(sermon.date)}
+        </p>
+        <h3 className="mt-3 text-xl font-semibold text-[#1d1d1f]">{sermon.title}</h3>
+        <p className="mt-1 text-sm font-medium text-[#333333]">{sermon.speaker}</p>
+        <p className="mt-2 line-clamp-3 text-sm leading-6 text-[#7a7a7a]">{sermon.description}</p>
+        <Link className="mt-5 inline-flex text-sm font-medium text-[#0066cc]" href={`/khotbah/${sermon.slug}`}>
+          Tonton khotbah
+        </Link>
+      </div>
     </article>
   );
 }

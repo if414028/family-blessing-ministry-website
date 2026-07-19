@@ -17,7 +17,10 @@ export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const branches: BranchLike[] = await getBranches();
-  const events: PublishedEvent[] = await getPublishedEvents();
+  const events: PublishedEvent[] = (await getPublishedEvents()).sort(
+    (first: PublishedEvent, second: PublishedEvent) =>
+      second.startDate.getTime() - first.startDate.getTime(),
+  );
   const sermons: PublishedSermon[] = await getPublishedSermons();
   const previewBranches = branches.slice(0, 6);
 

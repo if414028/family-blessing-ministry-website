@@ -62,7 +62,6 @@ const sermonSchema = z.object({
   speaker: z.string().min(2),
   date: z.string().min(1),
   branchId: optionalString,
-  youtubeUrl: optionalString,
   description: z.string().min(3),
   thumbnail: optionalString,
   bibleVerse: optionalString,
@@ -205,13 +204,18 @@ export async function saveSermon(id: string | null, formData: FormData) {
   const parsed = sermonSchema.parse(Object.fromEntries(formData));
   const branchId = ownedBranchId(user, parsed.branchId);
   if (!isSuperAdmin(user) && !branchId) redirect("/admin/sermons");
+  const branch = branchId
+    ? await prisma.branch.findUnique({ where: { id: branchId }, select: { youtubeUrl: true } })
+    : null;
+  const youtubeUrl = branch?.youtubeUrl ?? null;
   const slug = await uniqueSermonSlug(parsed.title, id);
   const data = {
     ...parsed,
     branchId,
+    youtubeUrl,
     slug,
     date: new Date(parsed.date),
-    youtubeEmbedId: getYoutubeEmbedId(parsed.youtubeUrl),
+    youtubeEmbedId: getYoutubeEmbedId(youtubeUrl),
   };
   let previousSlug: string | null = null;
   if (id) {

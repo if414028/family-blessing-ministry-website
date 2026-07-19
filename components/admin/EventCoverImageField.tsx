@@ -8,6 +8,33 @@ const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
 const maxFileSize = 10 * 1024 * 1024;
 
 export function EventCoverImageField({ initialUrl = "" }: { initialUrl?: string }) {
+  return (
+    <CloudinaryImageField
+      initialUrl={initialUrl}
+      fieldName="coverImage"
+      folder="family-blessing/events"
+      label="Upload Cover Image"
+      previewAlt="Preview cover event"
+      successMessage="Gambar berhasil di-upload. URL akan tersimpan bersama event."
+    />
+  );
+}
+
+export function CloudinaryImageField({
+  initialUrl = "",
+  fieldName,
+  folder,
+  label,
+  previewAlt,
+  successMessage,
+}: {
+  initialUrl?: string;
+  fieldName: string;
+  folder: string;
+  label: string;
+  previewAlt: string;
+  successMessage: string;
+}) {
   const [imageUrl, setImageUrl] = useState(initialUrl);
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState("");
@@ -38,7 +65,7 @@ export function EventCoverImageField({ initialUrl = "" }: { initialUrl?: string 
       const formData = new FormData();
       formData.append("file", file);
       formData.append("upload_preset", uploadPreset);
-      formData.append("folder", "family-blessing/events");
+      formData.append("folder", folder);
 
       const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
         method: "POST",
@@ -51,7 +78,7 @@ export function EventCoverImageField({ initialUrl = "" }: { initialUrl?: string 
       }
 
       setImageUrl(result.secure_url);
-      setMessage("Gambar berhasil di-upload. URL akan tersimpan bersama event.");
+      setMessage(successMessage);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Upload gambar gagal. Coba lagi.");
     } finally {
@@ -62,9 +89,9 @@ export function EventCoverImageField({ initialUrl = "" }: { initialUrl?: string 
 
   return (
     <div className="grid gap-3">
-      <input name="coverImage" type="hidden" value={imageUrl} readOnly />
+      <input name={fieldName} type="hidden" value={imageUrl} readOnly />
       <label className="grid gap-1 text-sm font-medium">
-        Upload Cover Image
+        {label}
         <input
           className="admin-field cursor-pointer p-2"
           type="file"
@@ -86,13 +113,13 @@ export function EventCoverImageField({ initialUrl = "" }: { initialUrl?: string 
         <Image
           className="aspect-video w-full rounded-[12px] border border-[#e0e0e0] object-cover"
           src={imageUrl}
-          alt="Preview cover event"
+          alt={previewAlt}
           width={800}
           height={450}
           unoptimized
         />
       ) : null}
-      {message ? <p className={`text-sm ${message.startsWith("Gambar berhasil") ? "text-green-700" : "text-[#7a7a7a]"}`}>{message}</p> : null}
+      {message ? <p className={`text-sm ${message === successMessage ? "text-green-700" : "text-[#7a7a7a]"}`}>{message}</p> : null}
     </div>
   );
 }
