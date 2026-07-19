@@ -26,7 +26,7 @@ export default async function SermonDetailPage({ params }: { params: Promise<{ s
       <section className="mx-auto max-w-4xl px-5 py-16">
         {sermon.thumbnail ? (
           <Image
-            className="mb-6 aspect-video w-full rounded-[18px] object-cover"
+            className="mb-6 h-auto w-full rounded-[18px] object-contain"
             src={sermon.thumbnail}
             alt={`Thumbnail sermon ${sermon.title}`}
             width={1200}
